@@ -14,19 +14,33 @@ define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');  // 日本語の文字化けを防ぐ
 // MagpieRSS読み込み
 
 require_once(MAGPIE_DIR.'rss_fetch.inc');   //rss_cache.incとrss_parse.incはここからrequire_onceされる
-
 require_once(MAGPIE_DIR.'rss_utils.inc');
+require_once("Pager/Pager.php");
 
 $site_list = array(
     "http://hamusoku.com/index.rdf",
     "http://alfalfalfa.com/index.rdf",
-    "http://labaq.com/index.rdf"
+    "http://labaq.com/index.rdf",
+    "http://blog.livedoor.jp/insidears/index.rdf"
     );
+$site_count_num = count($site_list);//総サイト数
+$perPage = 3;//1ページに表示するサイト数
+$delta = ceil($site_count_num/$perPage);//ページャーのインデックス数
+$options =array(
+    "totalItems"=>$site_count_num,
+    "delta"=>$delta,  //ページ数
+    "perPage"=>$perPage,  //1ページに表示するサイト数
+//   "urlvar"=>"s",
+//    "append"=>0,
+    "fileName"=>"table.php?page=%d"
+    );
+
+$pager=Pager::factory($options);
+print $pager->links;
+
 foreach ($site_list as $key => $val) {
     $rss_obj[] = fetch_rss($val);
 }
-
-$site_count_num = count($rss_obj);
 
 ///最初のfor文でサイトの件数($site_listの件数)ループさせる。
 for ($i=0; $i < $site_count_num; $i++ ) {

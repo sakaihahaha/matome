@@ -7,17 +7,18 @@
 </head>
 <body>
 <?php require_once("common.php"); ?>
+
 <div id="contents">
 	<div class="inner clearfix">
-		<?php for ($i=0; $i < $site_count_num; $i++ ) { ?>
-			<h2><a href="<?php print $site_link[$i]; ?>"><?php print $site_name[$i]; ?></a></h2>
-			<p><?php print $site_link[$i]; ?></p>
+		<?php foreach ($site as $site_name ) { ?>
+			<h2><a href="<?php print $site_link[$site_name]; ?>"><?php print $site_name; ?></a></h2>
+			<p><?php print $site_link[$site_name]; ?></p>
 				<?php for($j = 0; $j < 8; $j++){ ?>
 					<div class="box_S">
-						<a href="<?php print $data[$i][$j]["page_url"]; ?>">
+						<a href="<?php print $data[$site_name][$j]["page_url"]; ?>">
 							<div class="box_inner">
-								<h3><?php print $data[$i][$j]["title"]; ?></h3>
-								<div class="img_box"><?php print $data[$i][$j]["img"]; ?></div>
+								<h3><?php print $data[$site_name][$j]["title"]; ?></h3>
+								<div class="img_box"><?php print $data[$site_name][$j]["img"]; ?></div>
 							</div>
 						</a>
 					</div>
@@ -27,8 +28,6 @@
 </div><!-- /#contents -->
 <div id="footer">
 <!-- /#footer --></div>
-
-
 
 </body>
 </html>

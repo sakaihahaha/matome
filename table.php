@@ -10,9 +10,10 @@
 
 <div id="contents">
 	<div class="inner clearfix">
+	<p class="pager"><?php print $pager->links; ?></p>
 		<?php foreach ($site as $site_name ) { ?>
 			<h2><a href="<?php print $site_link[$site_name]; ?>"><?php print $site_name; ?></a></h2>
-			<p><?php print $site_link[$site_name]; ?></p>
+			<p class="sitename"><?php print $site_link[$site_name]; ?></p>
 				<?php for($j = 0; $j < 8; $j++){ ?>
 					<div class="box_S">
 						<a href="<?php print $data[$site_name][$j]["page_url"]; ?>">
@@ -25,6 +26,7 @@
 				<?php } ?>
 		<?php } ?>
 	</div><!-- .inner -->
+	<p class="pager"><?php print $pager->links; ?></p>
 </div><!-- /#contents -->
 <div id="footer">
 <!-- /#footer --></div>

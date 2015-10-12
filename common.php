@@ -24,15 +24,15 @@ $site_list = array(
     "http://blog.livedoor.jp/insidears/index.rdf"
     );
 $site_count_num = count($site_list);//総サイト数
-$perPage = 3;//1ページに表示するサイト数
-$delta = ceil($site_count_num/$perPage);//ページャーのインデックス数
+$per_page = 3;//1ページに表示するサイト数
+$delta = ceil($site_count_num/$per_page);//ページャーのインデックス数
 $options =array(
     "totalItems"=>$site_count_num,
     "delta"=>$delta,  //ページ数
-    "perPage"=>$perPage,  //1ページに表示するサイト数
-//   "urlvar"=>"s",
+    "perPage"=>$per_page,  //1ページに表示するサイト数
+//    "urlvar"=>"s",
 //    "append"=>0,
-    "fileName"=>"table.php?page=%d"
+    "fileName"=>"table.php"
     );
 
 $pager=Pager::factory($options);
@@ -41,11 +41,25 @@ print $pager->links;
 foreach ($site_list as $key => $val) {
     $rss_obj[] = fetch_rss($val);
 }
+if(isset($_GET["pageID"])){
+    $page_num = $_GET["pageID"];
+    $loop_key = ($page_num * $per_page) - $per_page;
+    $end_key = $page_num * $per_page;
+    ($page_num * $per_page >= $site_count_num ? $end_key = $site_count_num : $end_key = $page_num * $per_page);
+   // print $end_key."aa"."\n";
+    //print $loop_key;exit;
+    //print $end_key;exit;
+}else{
+    $loop_key = 0;
+    $end_key = $per_page;
+//    print $loop_key."\n";
+//    print $end_key;exit;
+}
 
 ///最初のfor文でサイトの件数($site_listの件数)ループさせる。
-for ($i=0; $i < $site_count_num; $i++ ) {
-    $site_name[] = $rss_obj[$i]->channel["title"];
-    $site_link[] = $rss_obj[$i]->channel["link"];
+for ($i=$loop_key; $i < $end_key; $i++ ) {
+    $site_name[$i] = $rss_obj[$i]->channel["title"];
+    $site_link[$i] = $rss_obj[$i]->channel["link"];
     
     //一つのサイトから8件の記事を取得。
     for($j = 0; $j < 8; $j++){
@@ -63,5 +77,5 @@ for ($i=0; $i < $site_count_num; $i++ ) {
         }
     }
 }
-
+//print_r($data);exit;
 ?>

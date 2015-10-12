@@ -38,23 +38,24 @@ $options =array(
 $pager=Pager::factory($options);
 print $pager->links;
 
-foreach ($site_list as $key => $val) {
-    $rss_obj[] = fetch_rss($val);
-}
+
 if(isset($_GET["pageID"])){
     $page_num = $_GET["pageID"];
     $loop_key = ($page_num * $per_page) - $per_page;
     $end_key = $page_num * $per_page;
     ($page_num * $per_page >= $site_count_num ? $end_key = $site_count_num : $end_key = $page_num * $per_page);
-   // print $end_key."aa"."\n";
-    //print $loop_key;exit;
-    //print $end_key;exit;
 }else{
     $loop_key = 0;
     $end_key = $per_page;
-//    print $loop_key."\n";
-//    print $end_key;exit;
 }
+
+for ($i = $loop_key; $i <$end_key ; $i++) { 
+   $rss_obj[$i] = fetch_rss($site_list[$i]);
+}
+//foreach ($site_list as $key => $val) {
+//    $rss_obj[] = fetch_rss($val);
+//}
+//print_r($rss_obj);exit;
 
 ///最初のfor文でサイトの件数($site_listの件数)ループさせる。
 for ($i=$loop_key; $i < $end_key; $i++ ) {

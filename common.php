@@ -58,22 +58,22 @@ if(isset($_GET["pageID"])){
 
 ///最初のfor文でサイトの件数($site_listの件数)ループさせる。
 for ($i=$loop_key; $i < $end_key; $i++ ) {
-    $site_name[$i] = $rss_obj[$i]->channel["title"];
-    $site_link[$i] = $rss_obj[$i]->channel["link"];
+    $site[$rss_obj[$i]->channel["title"]] = $rss_obj[$i]->channel["title"];
+    $site_link[$rss_obj[$i]->channel["title"]] = $rss_obj[$i]->channel["link"];
     
     //一つのサイトから8件の記事を取得。
     for($j = 0; $j < 8; $j++){
         $title =htmlspecialchars($rss_obj[$i]->items[$j]["title"]);
-        $data[$i][$j]["title"] = mb_substr($title, 0, 36, 'utf-8');
-        $data[$i][$j]["page_url"] = htmlspecialchars($rss_obj[$i]->items[$j]["link"]);
+        $data[$rss_obj[$i]->channel["title"]][$j]["title"] = mb_substr($title, 0, 36, 'utf-8');
+        $data[$rss_obj[$i]->channel["title"]][$j]["page_url"] = htmlspecialchars($rss_obj[$i]->items[$j]["link"]);
         
         //画像があればimgタグを代入。なければ説明文を代入。
         if(preg_match('|src="(.*?).jpg"|i',$rss_obj[$i]->items[$j]["content"]["encoded"], $match)){
-            $data[$i][$j]["img"] = '<img src="'.$match[1].'.jpg" width="195" />';
+            $data[$rss_obj[$i]->channel["title"]][$j]["img"] = '<img src="'.$match[1].'.jpg" width="195" />';
         } else {
             $description = htmlspecialchars($rss_obj[$i]->items[$i]["description"]);
-            $data[$i][$j]["description"] = mb_substr($description , 0, 104, 'utf-8');
-            $data[$i][$j]["img"] = '<h3>'.$data[$i][$j]["description"] .'</h3>';
+            $data[$rss_obj[$i]->channel["title"]][$j]["description"] = mb_substr($description , 0, 104, 'utf-8');
+            $data[$rss_obj[$i]->channel["title"]][$j]["img"] = '<h3>'.$data[$rss_obj[$i]->channel["title"]][$j]["description"] .'</h3>';
         }
     }
 }

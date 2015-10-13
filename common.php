@@ -30,13 +30,10 @@ $options =array(
     "totalItems"=>$site_count_num,
     "delta"=>$delta,  //ページ数
     "perPage"=>$per_page,  //1ページに表示するサイト数
-//    "urlvar"=>"s",
-//    "append"=>0,
     "fileName"=>"table.php"
     );
 
 $pager=Pager::factory($options);
-print $pager->links;
 
 
 if(isset($_GET["pageID"])){
@@ -49,6 +46,7 @@ if(isset($_GET["pageID"])){
     $end_key = $per_page;
 }
 
+//表示ページの分だけサイト情報を取得
 for ($i = $loop_key; $i <$end_key ; $i++) { 
    $rss_obj[$i] = fetch_rss($site_list[$i]);
 }
@@ -57,7 +55,7 @@ for ($i = $loop_key; $i <$end_key ; $i++) {
 //}
 //print_r($rss_obj);exit;
 
-///最初のfor文でサイトの件数($site_listの件数)ループさせる。
+///for文で表示ページ分だけループさせる。
 for ($i=$loop_key; $i < $end_key; $i++ ) {
     $site[$rss_obj[$i]->channel["title"]] = $rss_obj[$i]->channel["title"];
     $site_link[$rss_obj[$i]->channel["title"]] = $rss_obj[$i]->channel["link"];
